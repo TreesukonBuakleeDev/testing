@@ -130,3 +130,67 @@ Public Class Form1
 
 
 End Class
+###############################################################
+
+        If ChBox.Checked = True Then
+            Try
+                Dim I As Integer
+                For I = 0 To DataGrid.Rows.Count - 1
+                    Dim CHKRow As DataGridViewCheckBoxCell = DataGrid.Rows(I).Cells(0)
+                    If CHKRow.Value = False Then
+                        CHKRow.Value = True
+                    End If
+                    Try
+                        cmd.CommandType = System.Data.CommandType.Text
+                        cmd.CommandText = "INSERT OESIHO([SHIUNIQ],[InvoiceSHINO],[OP],[Value]) Values('10','IN010','FMS','R010')"
+                        cmd.Connection = sqlConnection1
+                        'command.Prepare()
+                        cmd.ExecuteNonQuery()
+                        mySqlReader = cmd.ExecuteReader()
+                        If mySqlReader.HasRows = True Then
+                            mySqlReader.Read()
+                            strSplit = Split(mySqlReader.Item(0), "R")
+                            maxIN = strSplit(1)
+                        Else
+                            maxIN = 0
+                        End If
+                        InvoiceNo = "R" + Format(maxIN + 1, "000")
+                        mySqlReader.Close()
+                    Catch
+                    End Try
+                Next
+            Catch ex As Exception
+                MsgBox("ok")
+                cmd.CommandText = "SELECT MAX(InvoiceNo) FROM Invoice "
+
+
+                'Insert data 
+                cmd.CommandType = System.Data.CommandType.Text
+                cmd.CommandText = "INSERT OESIHO([SHIUNIQ],[InvoiceSHINO],[OP],[Value]) Values('10','IN010','FMS','R010')"
+                cmd.Connection = sqlConnection1
+                sqlConnection1.Open()
+                cmd.ExecuteNonQuery()
+                sqlConnection1.Close()
+
+            End Try
+        Else
+            Try
+                Dim I As Integer
+                For I = 0 To DataGrid.Rows.Count - 1
+                    Dim CHKRow As DataGridViewCheckBoxCell = DataGrid.Rows(I).Cells(0)
+                    If CHKRow.Value = True Then
+                        CHKRow.Value = False
+                    End If
+                Next
+            Catch ex As Exception
+                MsgBox("No")
+            End Try
+        End If
+        'Insert data 
+
+        cmd.CommandType = System.Data.CommandType.Text
+        cmd.CommandText = "INSERT OESIHO([SHIUNIQ],[InvoiceSHINO],[OP],[Value]) Values('1','IN012','FMS','R012')"
+        cmd.Connection = sqlConnection1
+        sqlConnection1.Open()
+        cmd.ExecuteNonQuery()
+        sqlConnection1.Close()
