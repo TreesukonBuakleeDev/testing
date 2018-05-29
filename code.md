@@ -194,3 +194,18 @@ End Class
         sqlConnection1.Open()
         cmd.ExecuteNonQuery()
         sqlConnection1.Close()
+
+
+################## RUNNING NUMBER BY DATE CONDITION ##################
+Dim DDate As String = System.DateTime.Now.ToString("yyyyMM")
+            If mySqlReader.HasRows = True Then
+                mySqlReader.Read()
+                strSplit = Split(mySqlReader.Item(0), DDate)
+                maxIN = strSplit(1)
+            Else
+                maxIN = 0
+            End If
+            RCPNO = DDate + Format(maxIN + 1, "000")
+            TextBox1.Text = RCPNO
+            command.ExecuteNonQuery()
+            mySqlReader.Close()
