@@ -209,3 +209,8 @@ Dim DDate As String = System.DateTime.Now.ToString("yyyyMM")
             TextBox1.Text = RCPNO
             command.ExecuteNonQuery()
             mySqlReader.Close()
+            
+            
+################## Print Crystal Report
+http://www.thaicreate.com/dotnet/forum/068620.html 
+
