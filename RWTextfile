@@ -1,0 +1,18 @@
+  Dim filename As String = "C:\Users\AUTOMATION\Documents\Visual Studio 2013\Projects\Windows1\Windows1\bin\Debug\report\Connect.txt"
+   Dim fileReader As System.IO.StreamReader
+        fileReader = My.Computer.FileSystem.OpenTextFileReaderR(filename)
+        Dim stringReader1 As String
+        stringReader1 = fileReader.ReadLine()
+        Dim stringReader2 As String
+        stringReader2 = fileReader.ReadLine()
+        Dim stringReader3 As String
+        stringReader3 = fileReader.ReadLine()
+        Dim stringReader4 As String
+        stringReader4 = fileReader.ReadLine()
+        
+        TextBox1.Text = stringReader1
+        TextBox2.Text = stringReader2
+        TextBox3.Text = stringReader3
+        TextBox4.Text = stringReader4
+        fileReader.Close()
+        fileReader.Dispose()
