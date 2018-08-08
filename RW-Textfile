@@ -1,0 +1,102 @@
+ Public Sub WriteTextbox()
+
+        Dim filename As String = My.Application.Info.DirectoryPath & "\Configure\Configure.txt"
+        Dim fileReader As System.IO.StreamReader
+        fileReader = My.Computer.FileSystem.OpenTextFileReader(filename)
+        Dim stringReader1 As String
+        stringReader1 = fileReader.ReadLine()
+        Dim stringReader2 As String
+        stringReader2 = fileReader.ReadLine()
+        Dim stringReader3 As String
+        stringReader3 = fileReader.ReadLine()
+        Dim stringReader4 As String
+        stringReader4 = fileReader.ReadLine()
+        Dim stringReader5 As String
+        stringReader5 = fileReader.ReadLine()
+        Dim stringReader6 As String
+        stringReader6 = fileReader.ReadLine()
+        Dim stringReader7 As String
+        stringReader7 = fileReader.ReadLine()
+        Dim stringReader8 As String
+        stringReader8 = fileReader.ReadLine()
+        
+        Dim Sp1 As String()
+        Sp1 = stringReader1.Split("=")
+        Form1.txtServerName.Text = Sp1(1).ToString()
+        Dim Sp2 As String()
+        Sp2 = stringReader2.Split("=")
+        Form1.txtDBName.Text = Sp2(1).ToString()
+        Dim Sp3 As String()
+        Sp3 = stringReader3.Split("=")
+        Form1.txtUser.Text = Sp3(1).ToString()
+        Dim Sp4 As String()
+        Sp4 = stringReader4.Split("=")
+        Form1.txtPassword.Text = Sp4(1).ToString()
+        Dim Sp5 As String()
+        Sp5 = stringReader5.Split("=")
+        Form1.CbxServerType.Text = Sp5(1).ToString()
+
+        Dim Sp6 As String()
+        Sp6 = stringReader6.Split("=")
+        Form1.txtImPath.Text = Sp6(1).ToString()
+        Dim Sp7 As String()
+        Sp7 = stringReader7.Split("=")
+        Form1.txtExPath.Text = Sp7(1).ToString()
+        Dim Sp8 As String()
+        Sp8 = stringReader8.Split("=")
+        Form1.txtLogPath.Text = Sp8(1).ToString()
+
+        fileReader.Close()
+        fileReader.Dispose()
+    End Sub
+    Public Sub SaveConfig2Textfile()
+
+        Dim FILE_text1 As String = My.Application.Info.DirectoryPath & "\Configure\Configure.txt"
+        Dim aryText(7) As String
+        Dim i As Integer
+        aryText(0) = "ServerName=" + Form1.txtServerName.Text
+        aryText(1) = "DatabaseName=" + Form1.txtDBName.Text
+        aryText(2) = "UserName=" + Form1.txtUser.Text
+        aryText(3) = "PassWord=" + Form1.txtPassword.Text
+        aryText(4) = "ServerType=" + Form1.CbxServerType.Text
+        aryText(5) = "Import Path=" + Form1.txtImPath.Text
+        aryText(6) = "Export Path=" + Form1.txtExPath.Text
+        aryText(7) = "Log File Path=" + Form1.txtLogPath.Text
+        Dim objWriter As New System.IO.StreamWriter(FILE_text1)
+
+        For i = 0 To 7
+
+            objWriter.WriteLine(aryText(i))
+
+        Next
+
+        objWriter.Close()
+
+        Console.Read()
+    End Sub
+    
+    Sub ConnectViaDI()
+
+        Dim ConfigServerType As Integer
+
+        If Form1.CbxServerType.Text = "MSSQL2016" Then
+            ConfigServerType = 10
+        ElseIf Form1.CbxServerType.Text = "HANADB" Then
+            ConfigServerType = 9
+        ElseIf Form1.CbxServerType.Text = "MSSQL2014" Then
+            ConfigServerType = 8
+        ElseIf Form1.CbxServerType.Text = "MSSQL2012" Then
+            ConfigServerType = 7
+        ElseIf Form1.CbxServerType.Text = "MSSQL2008" Then
+            ConfigServerType = 6
+        End If
+
+        ConnectViaDI(Form1.txtServerName.Text,
+                     ConfigServerType,
+                     Form1.txtDBName.Text,
+                     Form1.txtUser.Text,
+                     Form1.txtPassword.Text,
+                     "DEV01-PC:30000",
+                     SAPbobsCOM.BoSuppLangs.ln_English
+                     )
+    End Sub
