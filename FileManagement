@@ -1,0 +1,52 @@
+''''''''getAllfieName import  IO.Directory.GetFiles
+Dim files() As String = IO.Directory.GetFiles("c:\")
+
+For Each file As String In files
+  ' Do work, example
+  Dim text As String = IO.File.ReadAllText(file)
+Next
+'''
+Private Sub SurroundingSub()
+    Dim fileName As String = "C:\mydir\myfile.ext"
+    Dim path As String = "C:\mydir\"
+    Dim result As String
+    result = Path.GetFileName(fileName)
+    Console.WriteLine("GetFileName('{0}') returns '{1}'", fileName, result)
+    result = Path.GetFileName(path)
+    Console.WriteLine("GetFileName('{0}') returns '{1}'", path, result)
+End Sub
+
+'''''''''Remove File
+If File.Exists(destination) Then File.Delete(destination);
+' Move the file.
+File.Move(source, destination);
+
+File.Copy(Source,Destination,true)
+File.Delete(Source)
+
+'''Move files
+ For Each x In New DirectoryInfo("C:\").GetFiles("*.pdf", SearchOption.TopDirectoryOnly)' or AllDirectories
+            File.Copy(x.FullName, Path.Combine("H:\", x.Name), False) 'Overwrite = FALSE
+        Next
+ ''''''       
+Imports System.Runtime.CompilerServices
+Imports System.IO
+
+Module Extensions
+    <Extension()>
+    Public Sub MoveAllItemsTo(ByVal fromPathInfo As DirectoryInfo, ByVal toPath As String)
+        ''Create the target directory if necessary
+        Dim toPathInfo = New DirectoryInfo(toPath)
+        If (Not toPathInfo.Exists) Then
+            toPathInfo.Create()
+        End If
+        ''move all files
+        For Each file As FileInfo In fromPathInfo.GetFiles()
+            file.MoveTo(Path.Combine(toPath, file.Name))
+        Next
+        ''move all folders
+        For Each dir As DirectoryInfo In fromPathInfo.GetDirectories()
+            dir.MoveTo(Path.Combine(toPath, dir.Name))
+        Next
+    End Sub
+End Module
